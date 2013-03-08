@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Multi Uploader</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script type="text/javascript" src="uploader.js"></script>
+<script language="javascript" >
+$(document).ready(function() {	
+	options = new Object();
+	options.buttonImagePath = "http://localhost/facebook.png";
+	options.buttonImagePathWidth = 32;
+	options.buttonImagePathHeight = 32;
+	options.maxFiles = 1000;
+	options.maxFileSize = 110.8;
+	options.maxSize = 800;
+	options.uploadScript = "http://freakpub.com/ionut/uploader-debug/upload.php";
+ 	options.allowedExtensions = "*.jpg; *.jpeg; *.gif; *.png; *.txt"; // allowed extensions 	
+ 	options.messages = "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded"; // messages
+ 	options.progressbar = "multiple"; // unique/multiple/spinner/none possible states
+ 	multiUploader(options);
+});
+
+function initprogressbar(message) {	
+	var progressbar = $( "#progressbar" ),
+      progressLabel = $( ".progress-label" );
+ 
+  progressbar.progressbar({
+   	value: false,
+    change: function() {
+      progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+    },
+    complete: function() {
+      progressLabel.text( "Complete!" );
+    }
+  });
+}
+
+function progressbar(counter) {
+	$(function() {
+		counter = counter.toFixed(2);	
+		//alert(counter);
+   	var progressbar = $("#progressbar"),
+    	  progressLabel = $(".progress-label");
+   	progressbar.progressbar("value", parseFloat(counter));
+  });
+}
+
+function errorMessages(message) {
+	$('#error').append(message).show(); 
+}
+
+function spinner(action) {	
+	$("#spinner").show();
+}
+
+function stopSpinner(action) {	
+	$("#spinner").hide();
+}
+
+function multiple(filename, bytesLoaded, bytesTotal) {
+  var js_filename = filename.replace(/\./g, '-');
+	if ($('#progress-' + js_filename).length > 0) {
+		$('#progress-' + js_filename + ' .status').css('width', bytesLoaded/bytesTotal*100 + '%');		
+		//html('<p> ' + bytesLoaded/bytesTotal*100 +'</p>');
+	}
+	else {
+		$('body').append('<div class="progress-bar" id="progress-' + js_filename + '"><div class="status"></div></div>');		
+		$('#progress-' + js_filename + ' .status').append('<span id="' + js_filename + '" class="ui-icon ui-icon-close"/>');
+	}
+	$('#' + js_filename).live("click", function(event) {
+  	$('#progress-' + js_filename).hide();
+		var flash = document.getElementById("as3_js");
+ 		flash.sendTextFromJS(filename);
+	});
+}
+
+function uploadDataComplete(Txt) {
+	var uploader = $.parseJSON(Txt);	
+	$('#image').append($("<img src='" + uploader.fileResizePath + "'>")); 
+	// $('#image').append($("<div>Path: " + uploader.fileResizePath + "</div>"));
+	// $('#image').append($("<div>Name: " + uploader.fileResizeName + "</div>"));
+	// $('#image').append($("<div>Size: " + uploader.fileResizeSize + "</div>")); 
+	// $('#image').append($("<div>Width: " + uploader.fileResizeWidth + "</div>"));
+	// $('#image').append($("<div>Height: " + uploader.fileResizeHeight + "</div>"));
+	// $('#image').append(Txt + '<br/>');
+}
+
+</script>
+<style type="text/css">
+.progress-label {
+    float: left;
+    margin-left: 40%;
+    margin-top: 5px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+  }
+.progress-bar {border:1px solid #bebebe; background:#ffffff; width:300px; height:14px; -moz-border-radius:10px; -webkit-border-radius:10px; -khtml-border-radius:10px; border-radius:10px;}
+.status {background:#0066cc; width:50%; height:14px; -moz-border-radius:10px; -webkit-border-radius:10px; -khtml-border-radius:10px; border-radius:10px;}
+</style>
+</head>
+
+<body>
+<div id="error" style="display:none; border-style:solid; border-width:1px; border-color: red; width:250px; text-align:center;"></div>
+<div id="spinner" style="display:none"><img src="loader.gif"/></div>
+<div style="width:400px;" id="progressbar"><div class="progress-label"></div></div>
+<div id="image"></div><br/>
+    
+<div class="as3">
+	<div id="alt"></div>
+</div>
+    
+</body>
+</html>

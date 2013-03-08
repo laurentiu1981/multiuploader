@@ -1,0 +1,66 @@
+[03-Mar-2013 04:05:51] PHP Warning:  getimagesize(http://freakpub.com/img/Blue hills.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:05:51] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:51] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:51] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:51] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:51] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Blue hills.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:05:52] PHP Warning:  getimagesize(http://freakpub.com/img/Water lilies.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:05:52] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:52] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:52] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:52] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:52] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Water lilies.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:05:52] PHP Warning:  getimagesize(http://freakpub.com/img/Sunset.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:05:52] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:52] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:52] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:05:52] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:05:52] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Sunset.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Blue hills.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Water lilies.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
+[03-Mar-2013 04:05:52] PHP Warning:  file_get_contents(http://freakpub.com/img/Sunset.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
+[03-Mar-2013 04:06:31] PHP Warning:  getimagesize(http://freakpub.com/img/Blue hills.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:06:31] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:31] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:31] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:31] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:31] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:06:31] PHP Warning:  file_get_contents(http://freakpub.com/img/Blue hills.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:06:31] PHP Warning:  file_get_contents(http://freakpub.com/img/Blue hills.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
+[03-Mar-2013 04:06:32] PHP Warning:  getimagesize(http://freakpub.com/img/Water lilies.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:06:32] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:32] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:32] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:32] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:32] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:06:32] PHP Warning:  file_get_contents(http://freakpub.com/img/Water lilies.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:06:32] PHP Warning:  file_get_contents(http://freakpub.com/img/Water lilies.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
+[03-Mar-2013 04:06:34] PHP Warning:  getimagesize(http://freakpub.com/img/Sunset.jpg) [<a href='function.getimagesize'>function.getimagesize</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 30
+[03-Mar-2013 04:06:34] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:34] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:34] PHP Warning:  imagesx(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 73
+[03-Mar-2013 04:06:34] PHP Warning:  imagesy(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 77
+[03-Mar-2013 04:06:34] PHP Warning:  imagecopyresampled(): supplied argument is not a valid Image resource in /home/freakpub/public_html/ionut/uploader-debug/SimpleImage.php on line 100
+[03-Mar-2013 04:06:34] PHP Warning:  file_get_contents(http://freakpub.com/img/Sunset.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 61
+[03-Mar-2013 04:06:34] PHP Warning:  file_get_contents(http://freakpub.com/img/Sunset.jpg) [<a href='function.file-get-contents'>function.file-get-contents</a>]: failed to open stream: HTTP request failed! HTTP/1.1 404 Not Found
+ in /home/freakpub/public_html/ionut/uploader-debug/upload.php on line 66
