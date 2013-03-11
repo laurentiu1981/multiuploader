@@ -24,7 +24,7 @@ function is_image($path) {
   return false;
 }
 
-$uploaddir = '../img/';
+$uploaddir = 'img/';
 if (!file_exists($uploaddir)) {
   mkdir($uploaddir, 0777);  
 }
@@ -51,7 +51,7 @@ if ($result) {
   }
   else {
 	  $img = new SimpleImage();
-    $uploadurl_r = '../img/' . 'r_' .basename($_FILES['imgfile']['name']);
+    $uploadurl_r = 'img/' . 'r_' .basename($_FILES['imgfile']['name']);
     $img->load($uploadurl);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
