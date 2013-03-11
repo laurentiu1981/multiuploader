@@ -51,7 +51,7 @@ if ($result) {
   }
   else {
 	  $img = new SimpleImage();
-    $uploadurl_r = '../img/' . 'r_' .basename($_FILES['imgfile']['name']);  
+    $uploadurl_r = '../img/' . 'r_' .basename($_FILES['imgfile']['name']);
     $img->load($uploadurl);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
@@ -79,7 +79,7 @@ if ($result) {
 	$message =  "<result><status>OK</status><message>$json_data</message><fileSize>$fileSize</fileSize></result>";
 }
 else {
-	$message = "<result><status>Error</status><message>Somthing is wrong with uploading a file.</message></result>";
+	$message = "<result><status>Error</status><message>Something is wrong with uploading a file.</message></result>";
 }
  
 echo $message;
