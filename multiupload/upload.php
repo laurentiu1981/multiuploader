@@ -30,7 +30,19 @@ function is_image($path) {
 
 // Prepare folder.
 // Check if folder or file exists, create it otherwise.
-$upload_folder = 'img/';
+if (!isset($_POST['uploadFolder'])) {
+  $upload_folder = 'img/';
+}
+else {
+  $upload_folder = $_POST['uploadFolder'];
+}
+
+if (isset($_POST['uploadThumbSize'])) {
+  $upload_thumb_size = explode(',', $_POST['uploadThumbSize']);
+}
+else {
+  $upload_thumb_size = array('150', '150');
+}
 if (!file_exists($upload_folder)) {
   mkdir($upload_folder, 0777);  
 }
@@ -50,8 +62,8 @@ if ($result) {
     $img->load($uploaded_file_path);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
-    $imageResizeWidth = 350;
-    $imageResizeHeight = 240;  
+    $imageResizeWidth = $upload_thumb_size[0];
+    $imageResizeHeight = $upload_thumb_size[1];
     $img->resize($imageResizeWidth, $imageResizeHeight);
     $img->save($file_resized_destination);
     $file_size = get_file_size($uploaded_file_url);
