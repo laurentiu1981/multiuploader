@@ -1,7 +1,7 @@
 <?php
 require_once 'SimpleImage.php';
 
-function get_file_size($file_url) {
+function curl_get_file_size($file_url) {
   $ch = curl_init("$file_url");
   curl_setopt($ch, CURLOPT_HEADER, 0);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -69,8 +69,8 @@ if ($result) {
     $imageResizeHeight = $upload_thumb_size[1];
     $img->resize($imageResizeWidth, $imageResizeHeight);
     $img->save($file_resized_destination);
-    $file_size = get_file_size($uploaded_file_url);
-    $file_resized_size = get_file_size($file_resized_destination);
+    $file_size = curl_get_file_size($uploaded_file_url);
+    $file_resized_size = curl_get_file_size($file_resized_url);
   }
   $json_data = array(
     'filePath' => $uploaded_file_path,
