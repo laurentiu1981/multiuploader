@@ -13,10 +13,13 @@ function get_file_size($file_url) {
 }
 
 function formatBytes($size, $precision = 2) {
-  $base = log($size) / log(1024);
-  $suffixes = array('', 'k', 'M', 'G', 'T');   
+  if ($size >= 0) {
+    $base = log($size) / log(1024);
+    $suffixes = array('', 'k', 'M', 'G', 'T');
 
-  return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
+    return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
+  }
+  return 'not available';
 }
 
 function is_image($path) {
@@ -44,7 +47,7 @@ else {
   $upload_thumb_size = array('150', '150');
 }
 if (!file_exists($upload_folder)) {
-  mkdir($upload_folder, 0777);  
+  mkdir($upload_folder, 0777, TRUE);
 }
 
 $file_destination = $upload_folder . basename($_FILES['imgfile']['name']);
