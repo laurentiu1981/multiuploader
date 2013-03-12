@@ -24,59 +24,49 @@ function is_image($path) {
   return false;
 }
 
-$uploaddir = 'img/';
-if (!file_exists($uploaddir)) {
-  mkdir($uploaddir, 0777);  
+// Prepare folder.
+// Check if folder or file exists, create it otherwise.
+$upload_folder = 'img/';
+if (!file_exists($upload_folder)) {
+  mkdir($upload_folder, 0777);  
 }
-else chmod($uploaddir, 0777);
-$uploadfile = $uploaddir . basename($_FILES['imgfile']['name']);
-$uploadurl = 'http://' . $_SERVER['SERVER_NAME'] . '/img/' . basename($_FILES['imgfile']['name']);
 
-$result = move_uploaded_file($_FILES['imgfile']['tmp_name'], $uploadfile );
+$file_destination = $upload_folder . basename($_FILES['imgfile']['name']);
+$uploaded_file_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $upload_folder . basename($_FILES['imgfile']['name']);
+$uploaded_file_path = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . basename($_FILES['imgfile']['name']);
+
+$result = move_uploaded_file($_FILES['imgfile']['tmp_name'], $file_destination );
 
 if ($result) {
-  if (!is_image($uploadfile)) {
-    $json_data = array(
-      'filePath' => $uploadurl,
-      'fileName' => basename($uploadurl),
-      'fileSize' => formatBytes(strlen(file_get_contents($uploadurl))),
-      'fileWidth' => 'undefined',
-      'fileHeight' => 'undefined',
-      'fileResizePath' => 'undefined',
-      'fileResizeName' => 'undefined',
-      'fileResizeSize' => 'undefined',
-      'fileResizeWidth' => 'undefined',
-      'fileResizeHeight' => 'undefined',
-    );  
-  }
-  else {
+  // Resize image if it is valid.
+  if (is_image($file_destination)) {
 	  $img = new SimpleImage();
-    $uploadurl_r = 'img/' . 'r_' .basename($_FILES['imgfile']['name']);
-    $img->load($uploadurl);
+    $file_resized_destination = $upload_folder . 'r_' .basename($_FILES['imgfile']['name']);
+    $img->load($uploaded_file_path);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
     $imageResizeWidth = 350;
     $imageResizeHeight = 240;  
     $img->resize($imageResizeWidth, $imageResizeHeight);
-    $img->save($uploadurl_r);  
-    $fileSize = strlen(file_get_contents($uploadurl));
-  
-    $json_data = array(
-      'filePath' => $uploadurl,
-    	'fileName' => basename($uploadurl),
-    	'fileSize' => formatBytes(strlen(file_get_contents($uploadurl))),
-    	'fileWidth' => $imageWidth,
-    	'fileHeight' => $imageHeight,
-    	'fileResizePath' => $uploadurl_r,
-    	'fileResizeName' => basename($uploadurl_r),
-    	'fileResizeSize' => formatBytes(strlen(file_get_contents($uploadurl_r))),
-    	'fileResizeWidth' => $imageResizeWidth,
-    	'fileResizeHeight' => $imageResizeHeight,
-	  );
+    $img->save($file_resized_destination);
+    $file_size = strlen(file_get_contents($uploaded_file_url));
+    $file_resized_size = strlen(file_get_contents($file_resized_destination));
   }
-	$json_data = json_encode($json_data);
+  $json_data = array(
+    'filePath' => $uploaded_file_path,
+    'fileName' => basename($uploaded_file_url),
+    'fileSize' => formatBytes(strlen(file_get_contents($uploaded_file_url))),
+    'fileWidth' => (isset($imageWidth) ? $imageWidth : 'undefined'),
+    'fileHeight' => (isset($imageHeight) ? $imageHeight : 'undefined'),
+    'fileResizePath' => (isset($file_resized_destination) ? $file_resized_destination : 'undefined'),
+    'fileResizeName' => (isset($file_resized_destination) ? basename($file_resized_destination) : 'undefined'),
+    'fileResizeSize' => (isset($file_resized_size) ? formatBytes($file_resized_size) : 'undefined'),
+    'fileResizeWidth' => (isset($imageResizeWidth) ? $imageResizeWidth : 'undefined'),
+    'fileResizeHeight' => (isset($imageResizeHeight) ? $imageResizeHeight : 'undefined'),
+  );
+  $json_data = json_encode($json_data);
 
-	$message =  "<result><status>OK</status><message>$json_data</message><fileSize>$fileSize</fileSize></result>";
+	$message =  "<result><status>OK</status><message>$json_data</message><fileSize>$file_size</fileSize></result>";
 }
 else {
 	$message = "<result><status>Error</status><message>Something is wrong with uploading a file.</message></result>";
