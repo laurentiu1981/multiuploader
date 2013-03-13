@@ -40,8 +40,6 @@ else {
   $upload_folder = $_POST['uploadFolder'];
 }
 
-$full_path_upload_folder = $_SERVER['DOCUMENT_ROOT'] . $upload_folder;
-
 if (isset($_POST['uploadThumbSize'])) {
   $upload_thumb_size = explode(',', $_POST['uploadThumbSize']);
 }
@@ -63,7 +61,7 @@ if ($result) {
   // Resize image if it is valid.
   if (is_image($file_destination)) {
 	  $img = new SimpleImage();
-    $file_resized_destination = $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
+    $file_resized_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
     $file_resized_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $file_resized_destination;
     $img->load($uploaded_file_path);
     $imageWidth = $img->getWidth();
