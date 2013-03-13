@@ -62,7 +62,7 @@ if ($result) {
   if (is_image($file_destination)) {
 	  $img = new SimpleImage();
     $file_resized_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
-    $file_resized_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $file_resized_destination;
+    $file_resized_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
     $img->load($uploaded_file_path);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
@@ -79,7 +79,7 @@ if ($result) {
     'fileSize' => formatBytes($file_size),
     'fileWidth' => (isset($imageWidth) ? $imageWidth : 'undefined'),
     'fileHeight' => (isset($imageHeight) ? $imageHeight : 'undefined'),
-    'fileResizePath' => (isset($file_resized_destination) ?  $file_resized_destination : 'undefined'),
+    'fileResizePath' => (isset($file_resized_destination) ?  $file_resized_url : 'undefined'),
     'fileResizeName' => (isset($file_resized_destination) ? basename($file_resized_destination) : 'undefined'),
     'fileResizeSize' => (isset($file_resized_size) ? formatBytes($file_resized_size) : 'undefined'),
     'fileResizeWidth' => (isset($imageResizeWidth) ? $imageResizeWidth : 'undefined'),
