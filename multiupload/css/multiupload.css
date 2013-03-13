@@ -14,6 +14,7 @@
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
   border-radius: 10px;
+  position: relative;
 }
 .status {
   background: #0066cc;
@@ -41,4 +42,9 @@
   float: left;
   color: white;
   font-weight: bold;
+}
+.progress-bar .elements-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

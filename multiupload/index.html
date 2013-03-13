@@ -72,7 +72,7 @@
       }
       else {
         $('body').append('<div class="progress-bar" id="progress-' + js_filename + '"><div class="status"></div></div>');
-        $('#progress-' + js_filename + ' .status').append('<span id="' + js_filename + '" class="ui-icon ui-icon-close"></span><span class="file-name">' + filename + '</span>');
+        $('#progress-' + js_filename + ' .status').append('<div class="elements-wrapper"><span id="' + js_filename + '" class="ui-icon ui-icon-close"></span><span class="file-name">' + filename + '</span></div>');
       }
       $('#' + js_filename).live("click", function (event) {
         $('#progress-' + js_filename).hide();
