@@ -40,7 +40,7 @@ else {
   $upload_folder = $_POST['uploadFolder'];
 }
 
-$full_path_upload_folder = getcwd() . $upload_folder;
+$full_path_upload_folder = $_SERVER['DOCUMENT_ROOT'] . $upload_folder;
 
 if (isset($_POST['uploadThumbSize'])) {
   $upload_thumb_size = explode(',', $_POST['uploadThumbSize']);
@@ -48,11 +48,11 @@ if (isset($_POST['uploadThumbSize'])) {
 else {
   $upload_thumb_size = array('150', '150');
 }
-if (!file_exists(getcwd() . '/' . $upload_folder)) {
-  mkdir(getcwd() . '/' . $upload_folder, 0777, TRUE);
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder)) {
+  mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder, 0777, TRUE);
 }
 
-$file_destination = getcwd() . '/' . $upload_folder . basename($_FILES['imgfile']['name']);
+$file_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . basename($_FILES['imgfile']['name']);
 $file_relative_path = $upload_folder . basename($_FILES['imgfile']['name']);
 $uploaded_file_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $file_relative_path;
 $uploaded_file_path = $_SERVER['DOCUMENT_ROOT'] . '/' . $file_relative_path;
