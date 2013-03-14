@@ -70,8 +70,8 @@ if ($result) {
     $imageResizeHeight = $upload_thumb_size[1];
     $img->resize($imageResizeWidth, $imageResizeHeight);
     $img->save($file_resized_destination);
-    $file_size = curl_get_file_size($uploaded_file_url);
-    $file_resized_size = curl_get_file_size($file_resized_url);
+    $file_size = filesize($file_destination);
+    $file_resized_size = filesize($file_resized_destination);
   }
   $json_data = array(
     'filePath' => $uploaded_file_path,
