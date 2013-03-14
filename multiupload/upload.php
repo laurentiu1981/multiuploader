@@ -50,10 +50,9 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder)) {
   mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder, 0777, TRUE);
 }
 
-$file_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . basename($_FILES['imgfile']['name']);
 $file_relative_path = $upload_folder . basename($_FILES['imgfile']['name']);
+$file_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $file_relative_path;
 $uploaded_file_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $file_relative_path;
-$uploaded_file_path = $_SERVER['DOCUMENT_ROOT'] . '/' . $file_relative_path;
 
 $result = move_uploaded_file($_FILES['imgfile']['tmp_name'], $file_destination );
 
@@ -63,7 +62,7 @@ if ($result) {
 	  $img = new SimpleImage();
     $file_resized_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
     $file_resized_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $upload_folder . 'r_' . basename($_FILES['imgfile']['name']);
-    $img->load($uploaded_file_path);
+    $img->load($file_destination);
     $imageWidth = $img->getWidth();
     $imageHeight = $img->getHeight();
     $imageResizeWidth = $upload_thumb_size[0];
@@ -74,12 +73,14 @@ if ($result) {
     $file_resized_size = filesize($file_resized_destination);
   }
   $json_data = array(
-    'filePath' => $uploaded_file_path,
+    'filePath' => $file_destination,
+    'fileUrl' => $uploaded_file_url,
     'fileName' => basename($uploaded_file_url),
     'fileSize' => formatBytes($file_size),
     'fileWidth' => (isset($imageWidth) ? $imageWidth : 'undefined'),
     'fileHeight' => (isset($imageHeight) ? $imageHeight : 'undefined'),
-    'fileResizePath' => (isset($file_resized_destination) ?  $file_resized_url : 'undefined'),
+    'fileResizePath' => (isset($file_resized_destination) ?  $file_resized_destination : 'undefined'),
+    'fileResizeUrl' => (isset($file_resized_url) ?  $file_resized_url : 'undefined'),
     'fileResizeName' => (isset($file_resized_destination) ? basename($file_resized_destination) : 'undefined'),
     'fileResizeSize' => (isset($file_resized_size) ? formatBytes($file_resized_size) : 'undefined'),
     'fileResizeWidth' => (isset($imageResizeWidth) ? $imageResizeWidth : 'undefined'),

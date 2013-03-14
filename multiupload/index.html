@@ -83,7 +83,7 @@
 
     function uploadDataComplete(Txt) {
       var uploader = $.parseJSON(Txt);
-      $('#image').append($("<img src='" + uploader.fileResizePath + "'>"));
+      $('#image').append($("<img src='" + uploader.fileResizeUrl + "'>"));
       // $('#image').append($("<div>Path: " + uploader.fileResizePath + "</div>"));
       // $('#image').append($("<div>Name: " + uploader.fileResizeName + "</div>"));
       // $('#image').append($("<div>Size: " + uploader.fileResizeSize + "</div>"));
