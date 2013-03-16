@@ -30,7 +30,7 @@ function multiUploader(options) {
  *   Error message.
  */
 function multiuploadPrintErrors(message) {
-
+  $('#error').append(message).show();
 }
 
 /**
