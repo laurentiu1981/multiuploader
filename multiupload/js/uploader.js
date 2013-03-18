@@ -133,3 +133,7 @@ function multiuploadUploadComplete(message, status) {
   $('#image').append($("<img src='" + uploaderData.fileResizeUrl + "'>"));
 
 }
+
+function debugFlash(message) {
+  $('body').append('<div' + message + '</div>');
+}
