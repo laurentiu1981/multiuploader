@@ -135,5 +135,5 @@ function multiuploadUploadComplete(message, status) {
 }
 
 function debugFlash(message) {
-  $('body').append('<div' + message + '</div>');
+  $('body').append('<div>' + message + '</div>');
 }
