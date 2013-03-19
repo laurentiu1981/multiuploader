@@ -9,7 +9,7 @@
   <script type="text/javascript" src="/multiupload/js/jquery-1.8.3.js"></script>
   <script type="text/javascript" src="/multiupload/js/jquery-ui-1.10.1.js"></script>
   <script type="text/javascript" src="/multiupload/js/swfobject.js"></script>
-  <script type="text/javascript" src="/multiupload/js/uploader.js"></script>
+  <script type="text/javascript" src="/multiupload/js/uploader.js"></script>  
   <script language="javascript">
     $(document).ready(function () {
       options = new Object();
@@ -22,7 +22,7 @@
       options.uploadScript = "/multiupload/upload.php";
       options.allowedExtensions = "*.jpg; *.jpeg; *.gif; *.png; *.txt"; // allowed extensions
       options.messages = "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded"; // messages
-      options.progressbar = "multiple"; // unique/multiple/spinner/none possible states
+      options.progressbar = "unique"; // unique/multiple/spinner/none possible states
       options.uploadFolder = "img/"; // upload path 
       options.uploadThumbSize = "150,140"; // thumb width, thumb height
       multiUploader(options, 'multiUploader'); // function call      

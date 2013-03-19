@@ -1,7 +1,6 @@
 function multiUploader(options, id) {
 	var width = options.buttonImagePathWidth;
 	var height = options.buttonImagePathHeight;
-
 	var flashvars = {
     multiuploadId: id,
 		buttonImagePath: options.buttonImagePath,
@@ -23,15 +22,15 @@ function multiUploader(options, id) {
 	swfobject.embedSWF("uploader.swf", id, width, height, "9.0.0", false, flashvars, params, attributes);
 }
 
-/**
- * Prints errors messages.
- *
- * @param string message
- *   Error message.
- */
-function multiuploadPrintErrors(message) {
-  $('#error').append(message).show();
-}
+(function($) {
+  $.fn.multiupload = function(options, id) {
+    var cid = 0;
+    return this.each(function() {
+      var $this = $(this);
+      cid++;
+      $this.append('<div id="'+ id + cid +'"></div>');
+      multiUploader(options, id + cid);
+    });
 (function($) {
   $.fn.multiupload = function(options, id) {
     var cid = 0;
@@ -44,8 +43,8 @@ function multiuploadPrintErrors(message) {
   };
 })( jQuery );
 
-/**
- * Creates unique progress bar for all files.
+ /**
+  Creates unique progress bar for all files.
  */
 function multiuploadInitializeUniqueProgressBar() {
   var progressbar = $("#progressbar"),
@@ -137,9 +136,9 @@ function multiuploadUploadComplete(message, status) {
   $('#spinner').fadeOut('fast', function() {
     $('#spinner').remove();
   });
-  $('.progress-bar').fadeOut('slow', function() {
-    $('.progress-bar').remove();
-  });
+  // $('.progress-bar').fadeOut('slow', function() {
+  //   $('.progress-bar').remove();
+  // });
   var uploaderData = $.parseJSON(message);
   $('#image').append($("<img src='" + uploaderData.fileResizeUrl + "'>"));
 
