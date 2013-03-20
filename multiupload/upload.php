@@ -54,7 +54,7 @@ $file_relative_path = $upload_folder . basename($_FILES['imgfile']['name']);
 $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/' . $file_relative_path;
 $uploaded_file_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $file_relative_path;
 
-if  ($_FILES['imgfile']['error'] == 0) {
+if ($_FILES['imgfile']['error'] == 0) {
   $result = move_uploaded_file($_FILES['imgfile']['tmp_name'], $file_destination );
 }
 else {
@@ -76,7 +76,7 @@ if ($result) {
     $img->save($file_resized_destination);
     $file_size = filesize($file_destination);
     $file_resized_size = filesize($file_resized_destination);
-  }
+  }  
   $json_data = array(
     'filePath' => $file_destination,
     'fileUrl' => $uploaded_file_url,
