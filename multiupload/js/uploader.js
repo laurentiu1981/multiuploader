@@ -1,8 +1,9 @@
-function multiUploader(options) {
+function multiUploader(options, id) {
 	var width = options.buttonImagePathWidth;
 	var height = options.buttonImagePathHeight;
 
 	var flashvars = {
+    multiuploadId: id,
 		buttonImagePath: options.buttonImagePath,
 		buttonImagePathWidth: options.buttonImagePathWidth,
 		buttonImagePathHeight: options.buttonImagePathHeight,
@@ -18,9 +19,8 @@ function multiUploader(options) {
 	};
 	var params = {};
 	var attributes = {};
-	//params.allowscriptaccess = "always";
-	attributes.id = "as3_js";
-	swfobject.embedSWF("uploader.swf", "alt", width, height, "9.0.0", false, flashvars, params, attributes);
+	attributes.id = id;
+	swfobject.embedSWF("uploader.swf", id, width, height, "9.0.0", false, flashvars, params, attributes);
 }
 
 /**
@@ -32,6 +32,17 @@ function multiUploader(options) {
 function multiuploadPrintErrors(message) {
   $('#error').append(message).show();
 }
+(function($) {
+  $.fn.multiupload = function(options, id) {
+    var cid = 0;
+    return this.each(function() {
+      var $this = $(this);
+      cid++;
+      $this.append('<div id="'+ id + cid +'"></div>');
+      multiUploader(options, id + cid);
+    });
+  };
+})( jQuery );
 
 /**
  * Creates unique progress bar for all files.
@@ -56,7 +67,7 @@ function multiuploadInitializeUniqueProgressBar() {
  */
 function multiuploadInitializeSpinner() {
   $('#spinner').remove();
-  $('body').append(<div id="spinner"><img src="/multiupload/images/loader.gif"/></div>);
+  $('body').append('<div id="spinner"><img src="/multiupload/images/loader.gif"/></div>');
 }
 
 /**
@@ -65,14 +76,14 @@ function multiuploadInitializeSpinner() {
  * @param string filename
  *   Filename
  */
-function multiuploadInitializeProgressBar(filename) {
+function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   var js_filename = filename.replace(/\./g, '-');
   $('body').append('<div class="progress-bar" id="progress-' + js_filename + '"><div class="status"></div></div>');
   $('#progress-' + js_filename + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + js_filename + '" class="ui-icon ui-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + js_filename).bind("click", function (event) {
     $('#progress-' + js_filename).remove();
-    var flash = document.getElementById("multiuploadID");
-    flash.cancelUpload(filename);
+    var flash = document.getElementById(multiuploadId);
+    flash.cancelUpload(filename, id);
   });
 }
 
@@ -84,7 +95,7 @@ function multiuploadInitializeProgressBar(filename) {
  */
 function multiuploadUpdateUniqueProgressBar(percent) {
   $(function () {
-    counter = counter.toFixed(2);
+    counter = percent.toFixed(2);
     var progressbar = $("#progressbar");
     progressbar.progressbar("value", parseFloat(counter));
   });
