@@ -48,3 +48,48 @@
   top: 0;
   left: 0; 
 }
+
+/**
+ *  Unique progress bar.
+ */
+.multiupload-corner-all {
+  border-radius: 4px;
+}
+
+.multiupload-widget-content {
+  border: 1px solid #dddddd;
+  background-color: #eeeeee;
+  color: #333333;
+}
+
+.multiupload-widget {
+  font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+  font-size: 1.1em;
+}
+
+.multiupload-progressbar {
+  height: 2em;
+  text-align: left;
+  overflow: hidden;
+  width: 50%;
+}
+
+.progress-label {
+  float: left;
+  margin-left: 40%;
+  margin-top: 5px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.multiupload-widget-header {
+  border: 1px solid #e78f08;
+  background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.multiupload-progressbar .multiupload-progressbar-value {
+  margin: -1px;
+  height: 100%;
+}

@@ -38,18 +38,10 @@ function multiUploader(options, id) {
   Creates unique progress bar for all files.
  */
 function multiuploadInitializeUniqueProgressBar() {
-  var progressbar = $("#progressbar"),
-    progressLabel = $(".progress-label");
-
-  progressbar.progressbar({
-    value:false,
-    change:function () {
-      progressLabel.text(progressbar.progressbar("value") + "%");
-    },
-    complete:function () {
-      progressLabel.text("Complete!");
-    }
-  });
+    $('#progressbar').remove();
+    $('body').append('<div id="progressbar" class="multiupload-progressbar multiupload-widget multiupload-widget-content multiupload-corner-all">'
+  + '<div class="progress-label">0%</div>'
+  + '<div class="multiupload-progressbar-value multiupload-widget-header multiupload-corner-all"></div></div>');
 }
 
 /**
@@ -63,8 +55,12 @@ function multiuploadInitializeSpinner() {
 /**
  * Creates progress bar for a given filename.
  *
- * @param string filename
+ * @param {string} filename
  *   Filename
+ * @param {int} id
+ *   File id.
+ * @param {string} multiuploadId
+ *   Flash object id.
  */
 function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   var js_filename = filename.replace(/\./g, '-');
@@ -80,15 +76,18 @@ function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
 /**
  * Update unique progress bar and percent of uploaded data.
  *
- * @param strin percent
+ * @param {string} percent
  *   Percent of uploaded data.
  */
 function multiuploadUpdateUniqueProgressBar(percent) {
-  $(function () {
-    counter = percent.toFixed(2);
-    var progressbar = $("#progressbar");
-    progressbar.progressbar("value", parseFloat(counter));
-  });
+  counter = parseFloat(percent.toFixed(2));
+  if (counter > 100) {
+    message = 'Complete!';
+  }
+  else {
+    message = counter + '%';
+  }
+  $('#progressbar .progress-label').text(message);
 }
 
 /**
