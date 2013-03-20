@@ -18,7 +18,7 @@
 }
 .status {
   background: #0066cc;
-  width: 100%;
+  width: 0%;
   height: 16px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -40,7 +40,7 @@
   margin: 0;
   padding: 0 0 0 10px;
   float: left;
-  color: white;
+  color: red;
   font-weight: bold;
 }
 .progress-bar .elements-wrapper {
