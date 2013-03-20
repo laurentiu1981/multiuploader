@@ -31,15 +31,6 @@ function multiUploader(options, id) {
       $this.append('<div id="'+ id + cid +'"></div>');
       multiUploader(options, id + cid);
     });
-(function($) {
-  $.fn.multiupload = function(options, id) {
-    var cid = 0;
-    return this.each(function() {
-      var $this = $(this);
-      cid++;
-      $this.append('<div id="'+ id + cid +'"></div>');
-      multiUploader(options, id + cid);
-    });
   };
 })( jQuery );
 
