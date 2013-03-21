@@ -16,7 +16,7 @@ function multiUploader(options, id) {
 		uploadFolder: options.uploadFolder,
 		uploadThumbSize: options.uploadThumbSize
 	};
-	var params = {};
+	var params = {wmode: "transparent"};
 	var attributes = {};
 	attributes.id = id;
 	swfobject.embedSWF("uploader.swf", id, width, height, "9.0.0", false, flashvars, params, attributes);
@@ -124,13 +124,14 @@ function multiuploadUpdateSpinner(percent) {
  * Handler for upload complete.
  */
 function multiuploadUploadComplete(message, status) {
+  var uploaderData = $.parseJSON(message);
+  var js_filename = uploaderData.fileName.replace(/\./g, '-');
   $('#spinner').fadeOut('fast', function() {
     $('#spinner').remove();
   });
-  // $('.progress-bar').fadeOut('slow', function() {
-  //   $('.progress-bar').remove();
-  // });
-  var uploaderData = $.parseJSON(message);
+  $('#progress-' + js_filename).fadeOut('slow', function() {
+    $(this).remove();
+  });
   $('#image').append($("<img src='" + uploaderData.fileResizeUrl + "'>"));
 
 }
