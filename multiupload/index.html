@@ -20,7 +20,7 @@
       options.uploadScript = "/multiupload/upload.php";
       options.allowedExtensions = "*.jpg; *.jpeg; *.gif; *.png; *.txt"; // allowed extensions
       options.messages = "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded"; // messages
-      options.progressbar = "multiple"; // unique/multiple/spinner/none possible states
+      options.progressbar = "unique"; // unique/multiple/spinner/none possible states
       options.uploadFolder = "img/"; // upload path 
       options.uploadThumbSize = "150,140"; // thumb width, thumb height
       multiUploader(options, 'multiUploader'); // function call      
@@ -36,7 +36,8 @@
 <div style="width:400px;" id="progressbar">
   <div class="progress-label"></div>
 </div>
-<div id="image"></div><br/>
+<div id="image"></div>
+<div class="clearfix"></div>
 <p>Upload 1:</p>
 <p>Upload 2:</p><br/>
 <div id="multiUploader"></div>  

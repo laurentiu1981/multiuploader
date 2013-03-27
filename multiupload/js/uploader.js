@@ -132,7 +132,10 @@ function multiuploadUploadComplete(message, status) {
   $('#progress-' + js_filename).fadeOut('slow', function() {
     $(this).remove();
   });
-  $('#image').append($("<img src='" + uploaderData.fileResizeUrl + "'>"));
+  $('#image').append('<div class="multiupload-thumbnail-wrapper multiupload-hidden"><img class="multiupload-thumbnail" src="' + uploaderData.fileResizeUrl + '"><span class="multiupload-thumbnail-text">' + uploaderData.fileName + '</span></div>');
+  $("#image .multiupload-thumbnail-wrapper.multiupload-hidden").not('.fadein').addClass('fadein').fadeIn('slow', function() {
+    $(this).removeClass('fadein multiupload-hidden');
+  });
 
 }
 
