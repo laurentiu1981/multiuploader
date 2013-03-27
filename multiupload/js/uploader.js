@@ -65,7 +65,7 @@ function multiuploadInitializeSpinner() {
 function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   var js_filename = filename.replace(/\./g, '-');
   $('body').append('<div class="progress-bar" id="progress-' + js_filename + '"><div class="status"></div></div>');
-  $('#progress-' + js_filename + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + js_filename + '" class="ui-icon ui-icon-close"></span><span class="file-name">' + filename + '</span></div>');
+  $('#progress-' + js_filename + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + js_filename + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + js_filename).bind("click", function (event) {
     $('#progress-' + js_filename).remove();
     var flash = document.getElementById(multiuploadId);

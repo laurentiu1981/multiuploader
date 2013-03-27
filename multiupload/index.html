@@ -4,10 +4,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Multi Upload</title>
-  <link rel="stylesheet" href="/multiupload/css/jquery-ui-1.10.1.css"/>
   <link rel="stylesheet" href="/multiupload/css/multiupload.css"/>
   <script type="text/javascript" src="/multiupload/js/jquery-1.8.3.js"></script>
-  <!--<script type="text/javascript" src="/multiupload/js/jquery-ui-1.10.1.js"></script>-->
   <script type="text/javascript" src="/multiupload/js/swfobject.js"></script>
   <script type="text/javascript" src="/multiupload/js/uploader.js"></script>  
   <script language="javascript">
@@ -22,11 +20,11 @@
       options.uploadScript = "/multiupload/upload.php";
       options.allowedExtensions = "*.jpg; *.jpeg; *.gif; *.png; *.txt"; // allowed extensions
       options.messages = "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded"; // messages
-      options.progressbar = "unique"; // unique/multiple/spinner/none possible states
+      options.progressbar = "multiple"; // unique/multiple/spinner/none possible states
       options.uploadFolder = "img/"; // upload path 
       options.uploadThumbSize = "150,140"; // thumb width, thumb height
       multiUploader(options, 'multiUploader'); // function call      
-      //$('p').multiupload(options, 'multiupload'); // jQuery plugin 
+      //$('p').multiupload(options, 'multiupload'); // jQuery plugin
     });    
   </script>
 

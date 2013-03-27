@@ -26,14 +26,8 @@
   border-radius: 10px;
 }
 
-.progress-bar .ui-icon-close {
-  border-right: 1px solid #ccc;
-  cursor: pointer;
-}
-.progress-bar .ui-icon {
-  display: inline-block;
-  float: left;
-}
+
+
 .progress-bar .file-name {
   font-size: 12px;
   height: 16px;
@@ -92,4 +86,34 @@
 .multiupload-progressbar .multiupload-progressbar-value {
   margin: -1px;
   height: 100%;
+}
+
+/**
+ * Cancel button.
+ */
+.multiupload-icon.multiupload-icon-close {
+    background-position: -80px -128px;
+}
+.multiupload-icon, .multiupload-widget-content .ui-icon {
+    background-image: url(images/ui-icons_222222_256x240.png);
+}
+.multiupload-icon {
+    width: 16px;
+    height: 16px;
+    background-position: 16px 16px;
+}
+.multiupload-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+.progress-bar .multiupload-icon-close {
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.progress-bar .multiupload-icon {
+    display: inline-block;
+    float: left;
 }
