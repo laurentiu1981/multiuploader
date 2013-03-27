@@ -88,6 +88,7 @@ function multiuploadUpdateUniqueProgressBar(percent) {
     message = counter + '%';
   }
   $('#progressbar .progress-label').text(message);
+  $('#progressbar .multiupload-widget-header').css('width', counter + '%');
 }
 
 /**
