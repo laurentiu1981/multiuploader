@@ -14,7 +14,8 @@ function multiUploader(options, id) {
 		messages: options.messages,
 		progressbar: options.progressbar,
 		uploadFolder: options.uploadFolder,
-		uploadThumbSize: options.uploadThumbSize
+		uploadThumbSize: options.uploadThumbSize,
+    preview: options.preview
 	};
 	var params = {wmode: "transparent"};
 	var attributes = {};
@@ -67,10 +68,14 @@ function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   $('body').append('<div class="progress-bar" id="progress-' + id + '"><div class="status"></div></div>');
   $('#progress-' + id + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + id + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + id).bind("click", function (event) {
-    $('#progress-' + id).remove();
     var flash = document.getElementById(multiuploadId);
     flash.cancelUpload(id);
+    $('#progress-' + id).remove();
   });
+}
+
+function multiuploadShowPreview(id, multiuploadId, str) {
+  $('#progress-' + id).before('<div><img class="preview-thumbnail" src="data:image/png;base64,' + str + '" /></div>');
 }
 
 /**
@@ -128,14 +133,22 @@ function multiuploadUploadComplete(message, status) {
   $('#spinner').fadeOut('fast', function() {
     $('#spinner').remove();
   });
-  $('#progress-' + fileID).fadeOut('slow', function() {
-    $(this).remove();
-  });
+//  $('#progress-' + fileID).fadeOut('slow', function() {
+//    $(this).remove();
+//  });
   $('#image').append('<div class="multiupload-thumbnail-wrapper multiupload-hidden"><img class="multiupload-thumbnail" src="' + uploaderData.fileResizeUrl + '"><span class="multiupload-thumbnail-text">' + uploaderData.fileName + '</span></div>');
   $("#image .multiupload-thumbnail-wrapper.multiupload-hidden").not('.fadein').addClass('fadein').fadeIn('slow', function() {
     $(this).removeClass('fadein multiupload-hidden');
   });
 
+}
+
+function multiuploadAddButtons(multiuploadId) {
+    $('body').append('<button class="start-upload">Start Upload</button>')
+    $('.start-upload').unbind('click').bind("click", function (event) {
+      var flash = document.getElementById(multiuploadId);
+      flash.startUpload();
+    });
 }
 
 function debugFlash(message) {

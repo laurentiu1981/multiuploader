@@ -167,3 +167,8 @@
     0px 0px 3px rgba(255, 255, 255, 0.68);
 }
 
+.preview-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+}
+
