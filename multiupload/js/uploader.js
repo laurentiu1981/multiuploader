@@ -64,12 +64,12 @@ function multiuploadInitializeSpinner() {
  */
 function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   var js_filename = filename.replace(/\./g, '-');
-  $('body').append('<div class="progress-bar" id="progress-' + js_filename + '"><div class="status"></div></div>');
-  $('#progress-' + js_filename + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + js_filename + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
-  $('#cancel-' + js_filename).bind("click", function (event) {
-    $('#progress-' + js_filename).remove();
+  $('body').append('<div class="progress-bar" id="progress-' + id + '"><div class="status"></div></div>');
+  $('#progress-' + id + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + id + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
+  $('#cancel-' + id).bind("click", function (event) {
+    $('#progress-' + id).remove();
     var flash = document.getElementById(multiuploadId);
-    flash.cancelUpload(filename, id);
+    flash.cancelUpload(id);
   });
 }
 
@@ -103,10 +103,9 @@ function multiuploadUpdateUniqueProgressBar(percent) {
  * @param string flashID
  *   ID of flash object.
  */
-function multiuploadUpdateProgressBar(filename, bytesLoaded, bytesTotal, flashID) {
-  var js_filename = filename.replace(/\./g, '-');
-  if ($('#progress-' + js_filename).length > 0) {
-    $('#progress-' + js_filename + ' .status').css('width', bytesLoaded / bytesTotal * 100 + '%');
+function multiuploadUpdateProgressBar(id, bytesLoaded, bytesTotal, flashID) {
+  if ($('#progress-' + id).length > 0) {
+    $('#progress-' + id + ' .status').css('width', bytesLoaded / bytesTotal * 100 + '%');
   }
 }
 
@@ -125,11 +124,11 @@ function multiuploadUpdateSpinner(percent) {
  */
 function multiuploadUploadComplete(message, status) {
   var uploaderData = $.parseJSON(message);
-  var js_filename = uploaderData.fileName.replace(/\./g, '-');
+  var fileID = uploaderData.fileID;
   $('#spinner').fadeOut('fast', function() {
     $('#spinner').remove();
   });
-  $('#progress-' + js_filename).fadeOut('slow', function() {
+  $('#progress-' + fileID).fadeOut('slow', function() {
     $(this).remove();
   });
   $('#image').append('<div class="multiupload-thumbnail-wrapper multiupload-hidden"><img class="multiupload-thumbnail" src="' + uploaderData.fileResizeUrl + '"><span class="multiupload-thumbnail-text">' + uploaderData.fileName + '</span></div>');

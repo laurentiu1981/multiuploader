@@ -46,6 +46,11 @@ if (isset($_POST['uploadThumbSize'])) {
 else {
   $upload_thumb_size = array('150', '150');
 }
+
+if (isset($_POST['fileID'])) {
+  $fileID = $_POST['fileID'];
+}
+
 if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder)) {
   mkdir($_SERVER['DOCUMENT_ROOT'] . '/' . $upload_folder, 0777, TRUE);
 }
@@ -78,6 +83,7 @@ if ($result) {
     $file_resized_size = filesize($file_resized_destination);
   }  
   $json_data = array(
+    'fileID' => $fileID,
     'filePath' => $file_destination,
     'fileUrl' => $uploaded_file_url,
     'fileName' => basename($uploaded_file_url),
