@@ -86,7 +86,7 @@ function multiuploadShowPreview(id, multiuploadId, str) {
  */
 function multiuploadUpdateUniqueProgressBar(percent) {
   counter = parseFloat(percent.toFixed(2));
-  if (counter > 100) {
+  if (counter >= 100) {
     message = 'Complete!';
   }
   else {
@@ -136,7 +136,7 @@ function multiuploadUploadComplete(message, status) {
 //  $('#progress-' + fileID).fadeOut('slow', function() {
 //    $(this).remove();
 //  });
-  $('#image').append('<div class="multiupload-thumbnail-wrapper multiupload-hidden"><img class="multiupload-thumbnail" src="' + uploaderData.fileResizeUrl + '"><span class="multiupload-thumbnail-text">' + uploaderData.fileName + '</span></div>');
+  $('#image').append('<div class="multiupload-thumbnail-wrapper multiupload-hidden"><img class="multiupload-thumbnail" src="' + encodeURI(uploaderData.fileResizeUrl) + '"><span class="multiupload-thumbnail-text">' + uploaderData.fileName + '</span></div>');
   $("#image .multiupload-thumbnail-wrapper.multiupload-hidden").not('.fadein').addClass('fadein').fadeIn('slow', function() {
     $(this).removeClass('fadein multiupload-hidden');
   });
