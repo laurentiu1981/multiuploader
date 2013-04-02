@@ -65,17 +65,20 @@ function multiuploadInitializeSpinner() {
  */
 function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   var js_filename = filename.replace(/\./g, '-');
-  $('body').append('<div class="progress-bar" id="progress-' + id + '"><div class="status"></div></div>');
+  $('body').append('<div class="progress-bar-wrapper" id="progress-' + id + '"><div class="preview-box"></div><div class="progress-bar"><div class="status"></div></div></div><div class="clearfix"></div>');
   $('#progress-' + id + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + id + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + id).bind("click", function (event) {
     var flash = document.getElementById(multiuploadId);
     flash.cancelUpload(id);
-    $('#progress-' + id).remove();
+    $('#progress-' + id).fadeOut('slow', function() {
+      $('#progress-' + id).remove();
+    });
+
   });
 }
 
 function multiuploadShowPreview(id, multiuploadId, str) {
-  $('#progress-' + id).before('<div><img class="preview-thumbnail" src="data:image/png;base64,' + str + '" /></div>');
+  $('#progress-' + id + ' .preview-box').append('<img class="preview-thumbnail" src="data:image/png;base64,' + str + '" />');
 }
 
 /**

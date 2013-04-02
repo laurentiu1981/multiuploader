@@ -22,6 +22,7 @@
   -khtml-border-radius: 10px;
   border-radius: 10px;
   position: relative;
+  float: left;
 }
 .status {
   background: #0066cc;
@@ -50,6 +51,28 @@
   left: 0; 
 }
 
+.progress-bar-wrapper .preview-box img.preview-thumbnail {
+  float:left;
+  margin: 4px;
+  border: 1px solid black;
+  -moz-box-shadow: 4px 4px 2px #AAA;
+  -webkit-box-shadow: 4px 4px 2px #AAA;
+  box-shadow: 4px 4px 2px #AAA;
+  display: block;
+}
+.progress-bar-wrapper {
+  max-width: 450px;
+  float: left;
+}
+
+.preview-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.preview-box {
+  float:left;
+}
 /**
  *  Unique progress bar.
  */
@@ -167,8 +190,4 @@
     0px 0px 3px rgba(255, 255, 255, 0.68);
 }
 
-.preview-thumbnail {
-  max-width: 100px;
-  max-height: 100px;
-}
 
