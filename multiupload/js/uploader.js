@@ -68,8 +68,8 @@ function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   $('body').append('<div class="progress-bar-wrapper" id="progress-' + id + '"><div class="preview-box"></div><div class="progress-bar"><div class="status"></div></div></div><div class="clearfix"></div>');
   $('#progress-' + id + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + id + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + id).bind("click", function (event) {
-    var flash = document.getElementById(multiuploadId);
-    flash.cancelUpload(id);
+    //var flash = document.getElementById(multiuploadId);
+    cancelUpload(id, xhr);
     $('#progress-' + id).fadeOut('slow', function() {
       $('#progress-' + id).remove();
     });
@@ -157,3 +157,232 @@ function multiuploadAddButtons(multiuploadId) {
 function debugFlash(message) {
   $('body').append('<div>' + message + '</div>');
 }
+
+//===========HTML5 version====================
+var currentFilesList = new Array();
+var uploadedCount = 0;
+var lastFileId = 0;
+var options;
+var total = 0;
+var totalRaw = 0;
+var uniqueProgressBarInit = false;
+var ONE_MEGABYTE = 1048576;
+var uploadRunning = false;
+var removedFiles = new Array();
+var uploadedSizes = new Array();
+var xhr;
+
+
+// init handlers
+function initHandlers() {
+  if( window.FormData !== undefined ) {
+    debugFlash('html5 available');
+  }
+  else {
+    debugFlash('html5 not available');
+  }
+  var uploadArea = document.getElementById(options.multiuploadId);
+  uploadArea.addEventListener('drop', handleDrop, false);
+  uploadArea.addEventListener('dragover', handleDragOver, false);
+  uploadArea.addEventListener("change", function () {
+    doFilesSelect(this.files);
+  }, false);
+}
+
+function handleDrop(evt){
+  evt.preventDefault();
+  evt.stopPropagation();
+}
+
+function handleDragOver(evt){
+  evt.preventDefault();
+  evt.stopPropagation();
+}
+
+function uploadFile(file) {
+  uploadRunning = true;
+  xhr = new XMLHttpRequest();
+  xhr.open('POST', options.uploadScript);
+  xhr.onload = function () {
+    uploadDataComplete(this.responseText);
+  };
+  xhr.onerror = function () {
+    debugFlash('error detected');
+  };
+  xhr.onabort = function() {
+    debugFlash('canceled');
+  }
+  xhr.upload.onprogress = function (event) {
+    progressHandler(event);
+  }
+  xhr.upload.onloadstart = function (event) {
+  }
+
+  var formData = new FormData();
+  formData.append('imgfile', file);
+  formData.append('uploadThumbSize', options.uploadThumbSize);
+  currentFilesList[uploadedCount] = file;
+  xhr.send(formData);
+}
+
+function doFilesSelect(files) {
+  var size = 0;
+  var errors = false;
+  var initialFileId = lastFileId;
+  for (var iter = 0; iter < files.length; iter++) {
+    currentFilesList[lastFileId] = files[iter];
+    size = files[iter].size;
+    if (size / ONE_MEGABYTE > options.maxFileSize) {
+      multiuploadPrintErrors('error 2');
+      errors = true;
+    }
+    total +=  size;
+    lastFileId++;
+  }
+  totalRaw = total;
+  if (files.length > options.maxFiles) {
+    multiuploadPrintErrors('error 0');
+    errors = true;
+  }
+  if (total / ONE_MEGABYTE > options.maxSize) {
+    multiuploadPrintErrors('error 1');
+    errors = true;
+  }
+  if (errors == true) {
+    return;
+  }
+  if (options.progressbar == "unique") {
+    if (!uniqueProgressBarInit){
+      multiuploadInitializeUniqueProgressBar();
+      uniqueProgressBarInit = true;
+    }
+  }
+  if (options.progressbar == "spinner") {
+    multiuploadInitializeSpinner();
+  }
+
+  if (files.length > 0) {
+    var id = 0;
+    var filesLength = files.length,
+        file = null;
+    for (var i=0; i < filesLength; i++) {
+
+
+      file = files[i];
+      if (options.progressbar == "multiple") {
+       multiuploadInitializeProgressBar(file.name, initialFileId + id, options.multiuploadId);
+      }
+      id++;
+    }
+    if (options.progressbar == "multiple" && options.preview == 1) {
+      multiuploadAddButtons(options.multiuploadId);
+      id = 0;
+      for (var i=0; i < filesLength; i++) {
+        file = files[i];
+        if (options.progressbar == "multiple" && options.preview == 1) {
+          file.addEventListener(Event.COMPLETE, handleLoadWrapper, false, 0, false);
+          file.load();
+          function handleLoadWrapper(event) {
+            handleLoad(e, initialFileId+id);
+          };
+        }
+      id++;
+      }
+      return;
+    }
+    if (uploadRunning == false) {
+      uploadNextFile();
+    }
+  }
+}
+
+function uploadNextFile() {
+  if (uploadedCount < currentFilesList.length && uploadRunning == false) {
+    if (removedFiles[uploadedCount] != "canceled") {
+      uploadFile(currentFilesList[uploadedCount]);
+      return;
+    }
+    else {
+      uploadedCount++;
+      uploadNextFile();
+      return;
+    }
+  }
+  uploadRunning = false;
+}
+
+function uploadDataComplete(data) {
+  uploadRunning = false;
+  var parser=new DOMParser();
+  var result = parser.parseFromString(data,"text/xml");
+  status_nodes = result.getElementsByTagName('status');
+  status = status_nodes[0].childNodes[0].nodeValue;
+
+  message_nodes = result.getElementsByTagName('message');
+  message = message_nodes[0].childNodes[0].nodeValue;
+  var status_txt = "";
+  var message;
+  if (status == "Error") {
+    status_txt = status;
+  }
+  multiuploadUploadComplete(message, status_txt);
+  uploadedCount++;
+  uploadNextFile();
+}
+
+function progressHandler(event) {
+  var file = event;
+  uploadedSizes[uploadedCount] = event.loaded;
+  sentSize = 0;
+  for(var iter = 0; iter <= uploadedCount; iter++) {
+    sentSize += uploadedSizes[iter];
+  }
+  var sampling = parseInt((sentSize/totalRaw) * 100);
+  if (options.progressbar == "unique") {
+    multiuploadUpdateUniqueProgressBar(sampling);
+  }
+  else if (options.progressbar == "multiple") {
+    multiuploadUpdateProgressBar(uploadedCount, event.loaded, event.total, options.multiuploadId);
+  }
+    else if (options.progressbar == "spinner") {
+      multiuploadInitializeSpinner();
+    }
+}
+
+function handleLoad(event, initialFileId) {
+  if (uploadRunning == true) {
+    return;
+  }
+  var file = event.target;
+  var fileByteArr;
+  var str;
+  fileByteArr = file.data;
+  str = compress(fileByteArr);
+  for(var iter = 0; iter < currentFilesList.length; iter++) {
+    if (currentFilesList[iter] == file) {
+      multiuploadShowPreview(iter, options.multiuploadId, str);
+    }
+  }
+}
+
+function compress(bytes) {
+  var enc = new Base64Encoder();
+  enc.encodeBytes(bytes);
+  return enc.drain().split("\n").join("");
+}
+
+function cancelUpload(id, xhr) {
+  if (uploadedCount == id && uploadRunning == true) {
+    xhr.abort();
+    uploadRunning = false;
+    uploadedCount++;
+    uploadNextFile();
+  }
+  else {
+    removedFiles[id] = "canceled";
+  }
+}
+
+jQuery(document).ready(function(){
+  initHandlers();
+})
