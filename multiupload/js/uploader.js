@@ -159,6 +159,20 @@ function debugFlash(message) {
 }
 
 //===========HTML5 version====================
+(function( $ ) {
+  $.fn.customFile = function() {
+    return this.each(function() {
+      var $file = $(this).addClass('customfile'); // the original file input
+      $file.css({
+        position: 'absolute',
+        left: '-9999px'
+      });
+    });
+
+  };
+}( jQuery ));
+
+
 var currentFilesList = new Array();
 var uploadedCount = 0;
 var lastFileId = 0;
@@ -175,11 +189,14 @@ var xhr;
 
 // init handlers
 function initHandlers() {
+  var html5;
   if( window.FormData !== undefined ) {
     debugFlash('html5 available');
+    html5 = true;
   }
   else {
     debugFlash('html5 not available');
+    html5 = false;
   }
   var uploadArea = document.getElementById(options.multiuploadId);
   uploadArea.addEventListener('drop', handleDrop, false);
@@ -187,7 +204,37 @@ function initHandlers() {
   uploadArea.addEventListener("change", function () {
     doFilesSelect(this.files);
   }, false);
+  var
+    $file = $('#' + options.multiuploadId);
+    wrap = $('<div class="customfile-wrap">'),
+    button = $('<button type="button" class="customfile-upload"></button>');
+    label = $('<label class="customfile-upload" for="' + options.multiuploadId + '"></label>');
+  $file.customFile();
+  wrap.insertAfter($file).append($file, ( !html5 ? label : button ) );
+  $file.attr('tabIndex', -1);
+  button.attr('tabIndex', -1);
+  var img = new Image();
+  img.onload = function() {
+    button.css({
+      width: this.width,
+      height: this.height,
+      border: 'none',
+      cursor: 'pointer'
+    });
+    button.fadeIn();
+  }
+  img.src = options.buttonImagePath;
+  button.css({
+    background: 'white url(' + options.buttonImagePath + ') no-repeat top',
+    color: 'white'
+  });
+  button.click(function () {
+    $file.focus().click();
+  });
 }
+
+
+
 
 function handleDrop(evt){
   evt.preventDefault();

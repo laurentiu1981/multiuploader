@@ -191,3 +191,14 @@
 }
 
 
+/**
+ * HTML5 variant.
+ */
+#multi-uploader {
+  position: absolute;
+  left: -9999px;
+}
+
+.customfile-upload {
+  display: none;
+}
