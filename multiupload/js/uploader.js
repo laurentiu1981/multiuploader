@@ -78,7 +78,12 @@ function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
 }
 
 function multiuploadShowPreview(id, multiuploadId, str) {
-  $('#progress-' + id + ' .preview-box').append('<img class="preview-thumbnail" src="data:image/png;base64,' + str + '" />');
+  if (html5 == false) {
+    $('#progress-' + id + ' .preview-box').append('<img class="preview-thumbnail" src="data:image/png;base64,' + str + '" />');
+  }
+  else {
+    $('#progress-' + id + ' .preview-box').append('<img class="preview-thumbnail" src="' + str + '" />');
+  }
 }
 
 /**
@@ -147,10 +152,23 @@ function multiuploadUploadComplete(message, status) {
 }
 
 function multiuploadAddButtons(multiuploadId) {
-    $('body').append('<button class="start-upload">Start Upload</button>')
+    if ($('.start-upload').length > 0) {
+      return;
+    }
+    if (html5 == true){
+      $('button.customfile-upload').after('<button class="start-upload">Start Upload</button>')
+    }
+    else {
+      $('#' + options.multiuploadId).after('<button class="start-upload">Start Upload</button>')
+    }
     $('.start-upload').unbind('click').bind("click", function (event) {
-      var flash = document.getElementById(multiuploadId);
-      flash.startUpload();
+      if (html5 == false) {
+        var flash = document.getElementById(multiuploadId);
+        flash.startUpload();
+      }
+      else {
+        uploadNextFile();
+      }
     });
 }
 
@@ -185,11 +203,10 @@ var uploadRunning = false;
 var removedFiles = new Array();
 var uploadedSizes = new Array();
 var xhr;
-
+var html5 = false;
 
 // init handlers
 function initHandlers() {
-  var html5;
   if( window.FormData !== undefined ) {
     debugFlash('html5 available');
     html5 = true;
@@ -215,12 +232,23 @@ function initHandlers() {
   button.attr('tabIndex', -1);
   var img = new Image();
   img.onload = function() {
-    button.css({
-      width: this.width,
-      height: this.height,
-      border: 'none',
-      cursor: 'pointer'
-    });
+    if (!options.hasOwnProperty('uploadButtonSize') || (options.hasOwnProperty('uploadButtonSize') && options.uploadButtonSize == 'auto')) {
+      button.css({
+        width: this.width,
+        height: this.height,
+        border: 'none',
+        cursor: 'pointer'
+      });
+    }
+    else {
+      button.css({
+        width: options.uploadButtonSize.width,
+        height: options.uploadButtonSize.height,
+        border: 'none',
+        cursor: 'pointer',
+        'background-size': options.uploadButtonSize.width + ' ' + options.uploadButtonSize.height
+      });
+    }
     button.fadeIn();
   }
   img.src = options.buttonImagePath;
@@ -326,12 +354,17 @@ function doFilesSelect(files) {
       id = 0;
       for (var i=0; i < filesLength; i++) {
         file = files[i];
+        var readers = new Array();
         if (options.progressbar == "multiple" && options.preview == 1) {
-          file.addEventListener(Event.COMPLETE, handleLoadWrapper, false, 0, false);
-          file.load();
-          function handleLoadWrapper(event) {
-            handleLoad(e, initialFileId+id);
-          };
+          readers[i] = new FileReader();
+          // Closure to capture the file information.
+          readers[i].onload = (function(theFile) {
+            var fileIterator = i;
+            return function(e) {
+              multiuploadShowPreview(initialFileId + fileIterator, options.multiuploadId, e.target.result);
+            };
+          })(file);
+          readers[i].readAsDataURL(file);
         }
       id++;
       }
@@ -394,28 +427,6 @@ function progressHandler(event) {
     else if (options.progressbar == "spinner") {
       multiuploadInitializeSpinner();
     }
-}
-
-function handleLoad(event, initialFileId) {
-  if (uploadRunning == true) {
-    return;
-  }
-  var file = event.target;
-  var fileByteArr;
-  var str;
-  fileByteArr = file.data;
-  str = compress(fileByteArr);
-  for(var iter = 0; iter < currentFilesList.length; iter++) {
-    if (currentFilesList[iter] == file) {
-      multiuploadShowPreview(iter, options.multiuploadId, str);
-    }
-  }
-}
-
-function compress(bytes) {
-  var enc = new Base64Encoder();
-  enc.encodeBytes(bytes);
-  return enc.drain().split("\n").join("");
 }
 
 function cancelUpload(id, xhr) {
