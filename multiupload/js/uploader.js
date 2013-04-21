@@ -10,7 +10,7 @@ var options = {
   allowedExtensions : "*.jpg; *.jpeg; *.gif; *.png; *.txt", // allowed extensions
   messages : "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded", // messages
   progressbar : "multiple", // unique/multiple/spinner/none possible states
-  preview : 1, // enable preview of the images.
+  preview : 0, // enable preview of the images.
   uploadFolder : "img/", // upload path
   uploadThumbSize : "150,140", // thumb width, thumb height
   multiuploadId : 'multi-uploader',
@@ -24,7 +24,7 @@ function multiUploader(sent_options, id) {
   $.extend(options, sent_options);
   if( window.FormData !== undefined ) {
     debugFlash('html5 available');
-    if (options.flash !== true) {
+    if (options.flash != true) {
       html5 = true;
     }
   }
@@ -62,19 +62,35 @@ function multiUploader(sent_options, id) {
   // Pick html5 version.
   else {
     jQuery(document).ready(function(){
-      initHandlers();
+      initHandlers(id);
     })
   }
 }
 
 (function($) {
-  $.fn.multiupload = function(options, id) {
+  $.fn.multiupload = function(options) {
     var cid = 0;
-    return this.each(function() {
+    this.each(function() {
       var $this = $(this);
       cid++;
-      $this.append('<div id="'+ id + cid +'"></div>');
-      multiUploader(options, id + cid);
+      if ($this.is('div')) {
+        $this.append('<div id="'+ options.multiuploadId + cid +'" class="multiupload-element"></div>');
+        multiUploader(options, options.multiuploadId + cid);
+      }
+      else {
+        var id = $this.attr('id');
+        var classes = $this.attr('class');
+        $this.replaceWith('<div id="multi-uploader-wrapper-temp"></div>');
+        $this = $('#multi-uploader-wrapper-temp');
+        if (typeof id !== 'undefined') {
+          $this.attr('id', '');
+          $this.attr('id', id);
+        }
+        if (typeof classes !== 'undefined') {
+          $this.addClass(classes);
+        }
+        multiUploader(options, id);
+      }
     });
   };
 })( jQuery );
@@ -255,22 +271,26 @@ var xhr;
 
 
 // init handlers
-function initHandlers() {
+function initHandlers(id) {
+  var
+    $file = $('#' + id);
+    wrap = $('<div class="customfile-wrap">'),
+    button = $('<button type="button" class="customfile-upload"></button>');
+    label = $('<label class="customfile-upload" for="' + id + '"></label>');
+    input = $('<input id="' + id + '" name="imgfile" type="file" multiple>');
+  input.customFile();
+  input.attr('tabIndex', -1);
 
-  var uploadArea = document.getElementById(options.multiuploadId);
+  wrap.insertAfter($file).append($file, ( !html5 ? label : button ), input);
+  $file.remove();
+
+  var uploadArea = document.getElementById(id);
   uploadArea.addEventListener('drop', handleDrop, false);
   uploadArea.addEventListener('dragover', handleDragOver, false);
   uploadArea.addEventListener("change", function () {
     doFilesSelect(this.files);
   }, false);
-  var
-    $file = $('#' + options.multiuploadId);
-    wrap = $('<div class="customfile-wrap">'),
-    button = $('<button type="button" class="customfile-upload"></button>');
-    label = $('<label class="customfile-upload" for="' + options.multiuploadId + '"></label>');
-  $file.customFile();
-  wrap.insertAfter($file).append($file, ( !html5 ? label : button ) );
-  $file.attr('tabIndex', -1);
+
   button.attr('tabIndex', -1);
   var img = new Image();
   img.onload = function() {
@@ -299,7 +319,7 @@ function initHandlers() {
     color: 'white'
   });
   button.click(function () {
-    $file.focus().click();
+    input.focus().click();
   });
 }
 
