@@ -1,6 +1,41 @@
-function multiUploader(options, id) {
-	var width = options.buttonImagePathWidth;
-	var height = options.buttonImagePathHeight;
+var html5 = false;
+var options = {
+  buttonImagePath : "/multiupload/images/upload_icon.png",
+  buttonImagePathWidth : 32,
+  buttonImagePathHeight : 32,
+  maxFiles : 1000,
+  maxFileSize : 110.8,
+  maxSize : 800,
+  uploadScript : "/multiupload/upload.php",
+  allowedExtensions : "*.jpg; *.jpeg; *.gif; *.png; *.txt", // allowed extensions
+  messages : "Maximum number of files exceeded,Maximum size in MB exceeded,Maximum size per file exceeded", // messages
+  progressbar : "multiple", // unique/multiple/spinner/none possible states
+  preview : 1, // enable preview of the images.
+  uploadFolder : "img/", // upload path
+  uploadThumbSize : "150,140", // thumb width, thumb height
+  multiuploadId : 'multi-uploader',
+  uploadButtonSize : 'auto', // auto - will enlarge the upload button size at actual dimmension of the image.
+  autoMask : false, //
+  flash : 'auto' // auto - will detect if html5 version is usable.
+}
+
+// Initialize upload button. Either flash or html5 version.
+function multiUploader(sent_options, id) {
+  $.extend(options, sent_options);
+  if( window.FormData !== undefined ) {
+    debugFlash('html5 available');
+    if (options.flash !== true) {
+      html5 = true;
+    }
+  }
+  else {
+    debugFlash('html5 not available');
+    html5 = false;
+  }
+  if (options.uploadButtonSize != 'auto') {
+    options.buttonImagePathWidth = options.uploadButtonSize.width;
+    options.buttonImagePathHeight = options.uploadButtonSize.height;
+  }
 	var flashvars = {
     multiuploadId: id,
 		buttonImagePath: options.buttonImagePath,
@@ -17,10 +52,19 @@ function multiUploader(options, id) {
 		uploadThumbSize: options.uploadThumbSize,
     preview: options.preview
 	};
-	var params = {wmode: "transparent"};
-	var attributes = {};
-	attributes.id = id;
-	swfobject.embedSWF("uploader.swf", id, width, height, "9.0.0", false, flashvars, params, attributes);
+  // Pick flash version if html5 is not available or flash option is true.
+  if (html5 == false) {
+    var params = {wmode: "transparent"};
+    var attributes = {};
+    attributes.id = id;
+    swfobject.embedSWF("uploader.swf", id, options.buttonImagePathWidth, options.buttonImagePathHeight, "9.0.0", false, flashvars, params, attributes);
+  }
+  // Pick html5 version.
+  else {
+    jQuery(document).ready(function(){
+      initHandlers();
+    })
+  }
 }
 
 (function($) {
@@ -68,8 +112,13 @@ function multiuploadInitializeProgressBar(filename, id, multiuploadId) {
   $('body').append('<div class="progress-bar-wrapper" id="progress-' + id + '"><div class="preview-box"></div><div class="progress-bar"><div class="status"></div></div></div><div class="clearfix"></div>');
   $('#progress-' + id + ' .status').append('<div class="elements-wrapper"><span id="cancel-' + id + '" class="multiupload-icon multiupload-icon-close"></span><span class="file-name">' + filename + '</span></div>');
   $('#cancel-' + id).bind("click", function (event) {
-    //var flash = document.getElementById(multiuploadId);
-    cancelUpload(id, xhr);
+    if (html5 == false) {
+      var flash = document.getElementById(multiuploadId);
+      flash.cancelUpload(id);
+    }
+    else {
+      cancelUpload(id, xhr);
+    }
     $('#progress-' + id).fadeOut('slow', function() {
       $('#progress-' + id).remove();
     });
@@ -203,18 +252,11 @@ var uploadRunning = false;
 var removedFiles = new Array();
 var uploadedSizes = new Array();
 var xhr;
-var html5 = false;
+
 
 // init handlers
 function initHandlers() {
-  if( window.FormData !== undefined ) {
-    debugFlash('html5 available');
-    html5 = true;
-  }
-  else {
-    debugFlash('html5 not available');
-    html5 = false;
-  }
+
   var uploadArea = document.getElementById(options.multiuploadId);
   uploadArea.addEventListener('drop', handleDrop, false);
   uploadArea.addEventListener('dragover', handleDragOver, false);
@@ -440,7 +482,3 @@ function cancelUpload(id, xhr) {
     removedFiles[id] = "canceled";
   }
 }
-
-jQuery(document).ready(function(){
-  initHandlers();
-})
